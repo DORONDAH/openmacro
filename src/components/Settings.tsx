@@ -1,14 +1,25 @@
 import { useTranslation } from 'react-i18next';
-import { Languages, Database, Info, Moon, Shield, Sparkles, ChevronRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Languages, Database, Info, Moon, Shield, Sparkles, ChevronRight, Target, Zap, Activity, Flame } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { db } from '../db/db';
+import { useMetrics } from '../hooks/useMetrics';
 
 const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const { targets } = useMetrics();
 
   const toggleLanguage = () => {
     const nextLng = i18n.language === 'en' ? 'he' : 'en';
     i18n.changeLanguage(nextLng);
+  };
+
+  const updateTarget = async (key: string, value: number) => {
+    const existing = await db.settings.where('key').equals(key).first();
+    if (existing) {
+      await db.settings.update(existing.id!, { value });
+    } else {
+      await db.settings.add({ key, value });
+    }
   };
 
   const handleClearData = async () => {
@@ -53,6 +64,46 @@ const Settings: React.FC = () => {
         <h2 className="text-4xl font-black text-white tracking-tighter">{t('dashboard.settings')}</h2>
         <div className="h-1 w-12 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
       </div>
+
+      {/* Goals Section */}
+      <motion.div
+        variants={itemVariants}
+        className="glass-card p-10 rounded-[3.5rem] relative overflow-hidden group border border-white/5"
+      >
+        <div className="absolute top-0 end-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+          <Target size={120} className="text-blue-500" />
+        </div>
+
+        <div className="flex items-center gap-3 text-blue-500 font-black mb-2 tracking-[0.3em] uppercase text-[10px]">
+          <Target size={16} />
+          {t('settings_page.goals_title')}
+        </div>
+        <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mb-10 italic">
+          {t('settings_page.goals_desc')}
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          {[
+            { label: t('macros.calories'), key: 'target_calories', icon: Flame, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+            { label: t('macros.protein'), key: 'target_protein', icon: Activity, color: 'text-blue-500', bg: 'bg-blue-500/10' },
+            { label: t('macros.fat'), key: 'target_fat', icon: Zap, color: 'text-orange-500', bg: 'bg-orange-500/10' },
+            { label: t('macros.carbs'), key: 'target_carbs', icon: Activity, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+          ].map((goal) => (
+            <div key={goal.key} className="space-y-3">
+              <label className="flex items-center gap-2 text-[9px] font-black text-white/30 uppercase tracking-[0.2em] ms-1">
+                <goal.icon size={10} className={goal.color} />
+                {goal.label}
+              </label>
+              <input
+                type="number"
+                value={(targets as any)[goal.key.replace('target_', '')]}
+                onChange={(e) => updateTarget(goal.key, Number(e.target.value))}
+                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-2xl text-xl font-black text-white outline-none focus:ring-2 focus:ring-blue-500/30 transition-all shadow-inner"
+              />
+            </div>
+          ))}
+        </div>
+      </motion.div>
 
       <motion.div
         variants={itemVariants}

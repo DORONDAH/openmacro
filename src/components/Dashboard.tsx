@@ -1,22 +1,23 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Scale, Plus, Zap, History } from 'lucide-react';
+import { Scale, Plus, Zap, History, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MacroCircle from './MacroCircle';
 import WeightModal from './WeightModal';
+import TDEEInfoModal from './TDEEInfoModal';
 import { useMetrics } from '../hooks/useMetrics';
+import { db } from '../db/db';
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const { todayMacros, todayMeals, currentTrendWeight, currentTDEE } = useMetrics();
+  const { todayMacros, todayMeals, currentTrendWeight, currentTDEE, targets } = useMetrics();
   const [showWeightModal, setShowWeightModal] = useState(false);
+  const [showTDEEInfoModal, setShowTDEEInfoModal] = useState(false);
 
-  // Targets (Future: fetch from settings)
-  const targets = {
-    calories: currentTDEE || 2500,
-    protein: 160,
-    fat: 70,
-    carbs: 300,
+  const handleDeleteMeal = async (id: number) => {
+    if (confirm(t('dashboard.confirm_delete_meal'))) {
+      await db.meals.delete(id);
+    }
   };
 
   const containerVariants = {
@@ -106,10 +107,12 @@ const Dashboard: React.FC = () => {
 
       {/* Row: Adaptive Insights */}
       <div className="grid grid-cols-2 gap-4 px-2">
-        <motion.div
+        <motion.button
           variants={itemVariants}
           whileHover={cardHover}
-          className="glass-card p-6 rounded-[2rem] relative overflow-hidden group"
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowTDEEInfoModal(true)}
+          className="glass-card p-6 rounded-[2rem] text-start relative overflow-hidden group"
         >
           <div className="absolute top-0 end-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
             <Zap size={60} className="text-blue-500" />
@@ -122,7 +125,7 @@ const Dashboard: React.FC = () => {
             {currentTDEE ? currentTDEE.toLocaleString() : '2,500'}
           </div>
           <div className="text-[10px] font-black text-blue-500/50 mt-2 uppercase tracking-widest">{t('dashboard.metabolic_rate')}</div>
-        </motion.div>
+        </motion.button>
 
       <motion.div
         variants={itemVariants}
@@ -189,11 +192,24 @@ const Dashboard: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="text-right rtl:text-left">
-                    <div className="text-2xl font-black text-white tracking-tighter group-hover:scale-110 transition-transform origin-right rtl:origin-left">
-                      {meal.calories}
+                  <div className="text-right rtl:text-left flex items-center gap-4">
+                    <div className="flex flex-col items-end rtl:items-start">
+                      <div className="text-2xl font-black text-white tracking-tighter group-hover:scale-110 transition-transform origin-right rtl:origin-left">
+                        {meal.calories}
+                      </div>
+                      <div className="text-[8px] text-white/20 font-black uppercase tracking-widest mt-0.5">kcal</div>
                     </div>
-                    <div className="text-[8px] text-white/20 font-black uppercase tracking-widest mt-0.5">kcal</div>
+                    <motion.button
+                      whileHover={{ scale: 1.1, color: '#ef4444' }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteMeal(meal.id!);
+                      }}
+                      className="p-2 text-white/5 group-hover:text-white/20 transition-colors"
+                    >
+                      <Trash2 size={16} />
+                    </motion.button>
                   </div>
                 </motion.div>
               ))
@@ -239,6 +255,9 @@ const Dashboard: React.FC = () => {
       <AnimatePresence>
         {showWeightModal && (
           <WeightModal onClose={() => setShowWeightModal(false)} />
+        )}
+        {showTDEEInfoModal && (
+          <TDEEInfoModal onClose={() => setShowTDEEInfoModal(false)} />
         )}
       </AnimatePresence>
     </motion.div>

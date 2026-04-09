@@ -35,6 +35,7 @@ const resources = {
         calibration_required: 'Calibration Required',
         insufficient_data: 'Insufficient data points for metabolic trajectory.',
         log_daily: 'Log weight daily to initialize.',
+        confirm_delete_meal: 'Remove this entry from the log?',
       },
       common: {
         add: 'Add',
@@ -89,6 +90,8 @@ const resources = {
         privacy_desc: 'OpenMacro is zero-cloud. Your metabolic data (TDEE) is calculated locally using a 20-day EMA weight smoothing algorithm. The app respects your privacy by storing everything in IndexedDB, ensuring zero tracking and zero latency.',
         build_info: 'Build 0.1.0-CINEMATIC',
         footer: 'Designed for Advanced Macro Management',
+        goals_title: 'Macro Blueprint',
+        goals_desc: 'Adjust your daily energetic targets',
       },
       search_page: {
         db_search: 'Database Search',
@@ -102,6 +105,15 @@ const resources = {
       },
       splash: {
         loading: 'Initializing metabolic engine...',
+      },
+      tdee_modal: {
+        system_intelligence: 'System Intelligence',
+        weight_smoothing: 'Weight Smoothing',
+        weight_smoothing_desc: 'Advanced 20-day EMA filtering to neutralize water weight fluctuations.',
+        energy_balance: 'Energy Balance',
+        energy_balance_desc: 'Real-time tracking of caloric surplus or deficit through trend analysis.',
+        dynamic_adaptation: 'Dynamic Adaptation',
+        dynamic_adaptation_desc: 'The engine recalibrates your TDEE every 24 hours for maximum accuracy.',
       },
     },
   },
@@ -137,6 +149,7 @@ const resources = {
         calibration_required: 'נדרש כיול',
         insufficient_data: 'אין מספיק נתונים למסלול מטבולי.',
         log_daily: 'תעד משקל יומי לאתחול.',
+        confirm_delete_meal: 'להסיר רשומה זו מהיומן?',
       },
       common: {
         add: 'הוסף',
@@ -191,6 +204,8 @@ const resources = {
         privacy_desc: 'OpenMacro היא מערכת ללא ענן. הנתונים המטבוליים שלך (TDEE) מחושבים מקומית באמצעות אלגוריתם EMA ל-20 יום. האפליקציה מכבדת את הפרטיות שלך על ידי שמירת הכל ב-IndexedDB, מה שמבטיח אפס מעקב ואפס השהיה.',
         build_info: 'גרסה 0.1.0-CINEMATIC',
         footer: 'מעוצב לניהול מאקרו מתקדם',
+        goals_title: 'תוכנית מאקרו',
+        goals_desc: 'כוונן את יעדי האנרגיה היומיים שלך',
       },
       search_page: {
         db_search: 'חיפוש במאגר',
@@ -204,6 +219,15 @@ const resources = {
       },
       splash: {
         loading: 'מאתחל מנוע מטבולי...',
+      },
+      tdee_modal: {
+        system_intelligence: 'בינת מערכת',
+        weight_smoothing: 'החלקת משקל',
+        weight_smoothing_desc: 'סינון EMA מתקדם ל-20 יום לנטרול תנודות משקל מים.',
+        energy_balance: 'מאזן אנרגטי',
+        energy_balance_desc: 'מעקב בזמן אמת אחר עודף או גירעון קלורי באמצעות ניתוח מגמות.',
+        dynamic_adaptation: 'אדפטציה דינמית',
+        dynamic_adaptation_desc: 'המנוע מכייל מחדש את ה-TDEE שלך כל 24 שעות לדיוק מרבי.',
       },
     },
   },

@@ -28,6 +28,20 @@ export function useMetrics() {
     [fourteenDaysAgo]
   );
 
+  // User Settings
+  const userSettings = useLiveQuery(() => db.settings.toArray());
+
+  const getSetting = (key: string, defaultValue: any) => {
+    return userSettings?.find(s => s.key === key)?.value ?? defaultValue;
+  };
+
+  const targets = {
+    calories: Number(getSetting('target_calories', 2500)),
+    protein: Number(getSetting('target_protein', 160)),
+    fat: Number(getSetting('target_fat', 70)),
+    carbs: Number(getSetting('target_carbs', 300)),
+  };
+
   // Today's macros summary
   const todayMacros = todayMeals?.reduce(
     (acc, m) => ({
@@ -49,8 +63,8 @@ export function useMetrics() {
   const currentTrendWeight = trendData.length > 0 ? trendData[trendData.length - 1].trend : null;
 
   // Calculate Adapted TDEE (14-day window)
-  const defaultTDEE = 2500; // Should come from settings eventually
-  let adaptedTDEE = defaultTDEE;
+  const initialTDEE = targets.calories;
+  let adaptedTDEE = initialTDEE;
 
   if (trendData.length >= 14 && recentMeals) {
     const endWeight = trendData[trendData.length - 1].trend;
@@ -81,8 +95,9 @@ export function useMetrics() {
     todayMacros,
     todayMeals: todayMeals || [],
     currentTrendWeight,
-    weightTrendData: trendData.slice(-14), // Last 14 days for more context
+    weightTrendData: trendData.slice(-14),
     currentTDEE: adaptedTDEE,
     weeklyHistory,
+    targets,
   };
 }
