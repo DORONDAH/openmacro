@@ -52,71 +52,63 @@ const Dashboard: React.FC = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-6 pb-24"
+      className="space-y-12 pb-32"
     >
-      {/* Energy Balance Header */}
+      {/* Featured Hero Section */}
       <motion.div
         variants={itemVariants}
-        whileHover={cardHover}
-        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700 relative overflow-hidden"
+        className="relative flex flex-col items-center justify-center pt-8"
       >
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-500/10 blur-[120px] rounded-full -z-10" />
 
-        <h2 className="text-xl font-black mb-8 flex items-center gap-2">
-          <div className="p-2 bg-blue-500/10 rounded-xl">
-            <Utensils size={20} className="text-blue-500" />
-          </div>
-          {t('dashboard.title')}
-        </h2>
-
-        <div className="flex justify-center mb-10">
-          <MacroCircle
-            current={todayMacros.calories}
-            total={targets.calories}
-            label={t('macros.calories')}
-            color="#3b82f6"
-          />
-        </div>
-
-        <div className="grid grid-cols-3 gap-6 border-t border-gray-50 dark:border-gray-700 pt-8">
-          {[
-            { label: t('macros.protein'), current: todayMacros.protein, target: targets.protein, color: 'text-blue-500' },
-            { label: t('macros.fat'), current: todayMacros.fat, target: targets.fat, color: 'text-orange-500' },
-            { label: t('macros.carbs'), current: todayMacros.carbs, target: targets.carbs, color: 'text-emerald-500' },
-          ].map((macro) => (
-            <div key={macro.label} className="text-center">
-              <div className="text-[10px] uppercase font-black text-gray-400 tracking-widest mb-1">{macro.label}</div>
-              <div className="text-sm font-black">
-                <span className={macro.color}>{Math.round(macro.current)}</span>
-                <span className="text-gray-300 mx-1">/</span>
-                <span className="text-gray-400">{macro.target}g</span>
-              </div>
-              <div className="mt-2 h-1 w-full bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${Math.min((macro.current / macro.target) * 100, 100)}%` }}
-                  transition={{ duration: 1, delay: 0.5 }}
-                  className={`h-full rounded-full ${macro.color.replace('text', 'bg')}`}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+        <MacroCircle
+          current={todayMacros.calories}
+          total={targets.calories}
+          label={t('macros.calories')}
+          color="#3b82f6"
+        />
       </motion.div>
 
-      {/* TDEE & Weight Summary */}
-      <div className="grid grid-cols-2 gap-4">
+      {/* Row: Macros Grid */}
+      <motion.div
+        variants={itemVariants}
+        className="grid grid-cols-3 gap-3 px-2"
+      >
+        {[
+          { label: t('macros.protein'), current: todayMacros.protein, target: targets.protein, color: 'text-blue-500', bg: 'bg-blue-500' },
+          { label: t('macros.fat'), current: todayMacros.fat, target: targets.fat, color: 'text-orange-500', bg: 'bg-orange-500' },
+          { label: t('macros.carbs'), current: todayMacros.carbs, target: targets.carbs, color: 'text-emerald-500', bg: 'bg-emerald-500' },
+        ].map((macro) => (
+          <div key={macro.label} className="glass-card p-4 rounded-3xl flex flex-col items-center text-center">
+            <div className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-3">{macro.label}</div>
+            <div className="text-xl font-black text-white mb-3 tracking-tighter">
+              {Math.round(macro.current)}
+              <span className="text-[10px] text-white/20 ml-1 font-bold">g</span>
+            </div>
+            <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min((macro.current / macro.target) * 100, 100)}%` }}
+                className={`h-full ${macro.bg}`}
+              />
+            </div>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Row: Adaptive Insights */}
+      <div className="grid grid-cols-2 gap-4 px-2">
         <motion.div
           variants={itemVariants}
           whileHover={cardHover}
-          className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-blue-500/10 border border-white dark:border-gray-700"
+          className="glass-card p-6 rounded-[2rem]"
         >
-          <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
-            <Zap size={12} className="text-blue-500" />
-            {t('dashboard.tdee')}
+          <div className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+            <Zap size={14} className="text-blue-500" />
+            Adaptive TDEE
           </div>
-          <div className="text-3xl font-black text-blue-600 tracking-tight">{currentTDEE.toLocaleString()}</div>
-          <div className="text-[10px] font-bold text-blue-500/50 mt-1 uppercase">Daily Adapted</div>
+          <div className="text-4xl font-black text-white tracking-tighter">{currentTDEE.toLocaleString()}</div>
+          <div className="text-[10px] font-black text-blue-500/50 mt-2 uppercase tracking-widest">Metabolic Rate</div>
         </motion.div>
 
         <motion.button
@@ -124,114 +116,77 @@ const Dashboard: React.FC = () => {
           whileHover={cardHover}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowWeightModal(true)}
-          className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-purple-500/10 border border-white dark:border-gray-700 text-left transition-all"
+          className="glass-card p-6 rounded-[2rem] text-left relative overflow-hidden group"
         >
-          <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
-            <Scale size={12} className="text-purple-500" />
-            {t('dashboard.weight_trend')}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="text-white/30 text-[10px] font-black uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+            <Scale size={14} className="text-purple-500" />
+            Trend Weight
           </div>
-          <div className="text-3xl font-black text-purple-600 tracking-tight">
+          <div className="text-4xl font-black text-white tracking-tighter">
             {currentTrendWeight ? currentTrendWeight.toFixed(1) : '--.-'}
-            <span className="text-sm font-normal text-gray-300 ml-1">kg</span>
+            <span className="text-sm font-bold text-white/20 ml-1">kg</span>
           </div>
-          <div className="text-[10px] font-bold text-purple-500 mt-1 flex items-center gap-1 uppercase">
-            <Plus size={8} /> Log Weight
+          <div className="text-[10px] font-black text-purple-500 mt-2 uppercase tracking-widest flex items-center gap-1">
+            <Plus size={10} /> Log Today
           </div>
         </motion.button>
       </div>
 
-      {/* Weight Chart */}
+      {/* Row: Activity Log (Continue Watching style) */}
       <motion.div
         variants={itemVariants}
-        whileHover={cardHover}
-        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
+        className="space-y-6"
       >
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
-            <TrendingUp size={14} className="text-blue-500" />
-            Weight Trend
-          </h3>
-          <ChevronRight size={16} className="text-gray-300" />
+        <div className="flex justify-between items-end px-4">
+          <h3 className="text-sm font-black text-white/40 uppercase tracking-[0.2em]">Activity History</h3>
+          <div className="text-[10px] font-black text-blue-500 uppercase tracking-widest">View All</div>
         </div>
-        <div className="h-48 w-full">
-          {weightTrendData.length > 1 ? (
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={weightTrendData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                <XAxis
-                  dataKey="date"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
-                  tickFormatter={(str) => str.split('-').slice(1).join('/')}
-                />
-                <YAxis hide domain={['dataMin - 0.5', 'dataMax + 0.5']} />
-                <Tooltip
-                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  labelFormatter={(str) => `Date: ${str}`}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="trend"
-                  stroke="#3b82f6"
-                  strokeWidth={4}
-                  dot={false}
-                  animationDuration={2000}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#e5e7eb"
-                  strokeWidth={2}
-                  strokeDasharray="4 4"
-                  dot={{ r: 4, fill: '#9ca3af', strokeWidth: 0 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          ) : (
-            <div className="h-full flex items-center justify-center text-gray-400 text-sm font-bold italic">
-              Add a few days of weight entries to see trend
-            </div>
-          )}
+
+        <div className="px-2">
+          <div className="glass-card p-6 rounded-[2.5rem] space-y-4">
+            {todayMeals.length > 0 ? (
+              todayMeals.map((meal, idx) => (
+                <motion.div
+                  key={meal.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 * idx }}
+                  className="flex justify-between items-center py-4 border-b border-white/5 last:border-0"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-white/5 rounded-2xl flex items-center justify-center text-blue-500 font-black text-xs">
+                      {meal.name.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="font-black text-sm text-white/90">{meal.name}</div>
+                      <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest mt-0.5">
+                        {Math.round(meal.protein)}P • {Math.round(meal.carbs)}C • {Math.round(meal.fat)}F
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-lg font-black text-white tracking-tighter">
+                    {meal.calories}
+                    <span className="text-[10px] text-white/20 ml-1 uppercase">kcal</span>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="text-center py-12 text-white/20 text-xs font-black uppercase tracking-widest italic">
+                Awaiting first entry...
+              </div>
+            )}
+          </div>
         </div>
       </motion.div>
 
-      {/* Today's Log */}
-      <motion.div
-        variants={itemVariants}
-        whileHover={cardHover}
-        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
-      >
-        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">Today's Log</h3>
-        <div className="space-y-4">
-          {todayMeals.length > 0 ? (
-            todayMeals.map((meal, idx) => (
-              <motion.div
-                key={meal.id}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + idx * 0.1 }}
-                className="flex justify-between items-center py-4 border-b border-gray-50 dark:border-gray-700 last:border-0"
-              >
-                <div>
-                  <div className="font-black text-sm text-gray-800 dark:text-gray-100">{meal.name}</div>
-                  <div className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter mt-1">
-                    P: {Math.round(meal.protein)}g • C: {Math.round(meal.carbs)}g • F: {Math.round(meal.fat)}g
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="text-lg font-black text-blue-600">{meal.calories}</div>
-                  <div className="text-[10px] font-bold text-gray-300 uppercase">kcal</div>
-                </div>
-              </motion.div>
-            ))
-          ) : (
-            <div className="text-center py-8 text-gray-400 text-sm font-bold italic bg-gray-50 dark:bg-gray-900/50 rounded-3xl">
-              No food logged today
-            </div>
-          )}
-        </div>
-      </motion.div>
+      <AnimatePresence>
+        {showWeightModal && (
+          <WeightModal onClose={() => setShowWeightModal(false)} />
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
 
       <AnimatePresence>
         {showWeightModal && (

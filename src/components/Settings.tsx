@@ -47,69 +47,90 @@ const Settings: React.FC = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-6 pb-24"
+      className="space-y-8 pb-32"
     >
-      <h2 className="text-2xl font-black mb-6 px-2">{t('dashboard.settings')}</h2>
+      <div className="flex flex-col gap-1 px-4 mb-8">
+        <h2 className="text-4xl font-black text-white tracking-tighter">{t('dashboard.settings')}</h2>
+        <div className="h-1 w-12 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+      </div>
 
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700 overflow-hidden"
+        className="glass-card rounded-[3rem] overflow-hidden"
       >
         <button
           onClick={toggleLanguage}
-          className="w-full flex items-center justify-between p-6 hover:bg-white/50 dark:hover:bg-gray-700/50 transition-colors border-b border-gray-50 dark:border-gray-700"
+          className="w-full flex items-center justify-between p-8 hover:bg-white/5 transition-colors border-b border-white/5"
         >
-          <div className="flex items-center gap-4">
-            <div className="p-2 bg-blue-500/10 rounded-xl">
-              <Languages size={20} className="text-blue-500" />
+          <div className="flex items-center gap-6">
+            <div className="p-3 bg-blue-500/10 rounded-2xl">
+              <Languages size={24} className="text-blue-500" />
             </div>
-            <span className="font-black text-sm uppercase tracking-wider">Language / שפה</span>
+            <div className="text-left">
+              <span className="block font-black text-sm uppercase tracking-wider text-white">Language</span>
+              <span className="block text-[10px] font-bold text-white/30 uppercase tracking-widest mt-0.5">Change App Language</span>
+            </div>
           </div>
-          <span className="text-xs font-bold text-gray-400 bg-gray-100 dark:bg-gray-900 px-3 py-1 rounded-full">{i18n.language === 'en' ? 'English' : 'עברית'}</span>
+          <span className="text-[10px] font-black text-blue-500 bg-blue-500/10 px-4 py-2 rounded-full uppercase tracking-widest">{i18n.language === 'en' ? 'English' : 'עברית'}</span>
         </button>
 
-        <div className="w-full flex items-center justify-between p-6 hover:bg-white/50 dark:hover:bg-gray-700/50 transition-colors border-b border-gray-50 dark:border-gray-700">
-          <div className="flex items-center gap-4">
-            <div className="p-2 bg-purple-500/10 rounded-xl">
-              <Moon size={20} className="text-purple-500" />
+        <div className="w-full flex items-center justify-between p-8 hover:bg-white/5 transition-colors border-b border-white/5">
+          <div className="flex items-center gap-6">
+            <div className="p-3 bg-purple-500/10 rounded-2xl">
+              <Moon size={24} className="text-purple-500" />
             </div>
-            <span className="font-black text-sm uppercase tracking-wider">Dark Mode</span>
+            <div className="text-left">
+              <span className="block font-black text-sm uppercase tracking-wider text-white">Theme</span>
+              <span className="block text-[10px] font-bold text-white/30 uppercase tracking-widest mt-0.5">Dark Mode Always</span>
+            </div>
           </div>
-          <span className="text-xs font-bold text-gray-400 bg-gray-100 dark:bg-gray-900 px-3 py-1 rounded-full">Auto</span>
+          <span className="text-[10px] font-black text-purple-500 bg-purple-500/10 px-4 py-2 rounded-full uppercase tracking-widest italic">Cinematic</span>
         </div>
 
         <button
           onClick={handleClearData}
-          className="w-full flex items-center gap-4 p-6 text-red-500 hover:bg-red-50/50 dark:hover:bg-red-900/20 transition-colors"
+          className="w-full flex items-center gap-6 p-8 text-red-500 hover:bg-red-500/5 transition-colors"
         >
-          <div className="p-2 bg-red-500/10 rounded-xl">
-            <Database size={20} />
+          <div className="p-3 bg-red-500/10 rounded-2xl">
+            <Database size={24} />
           </div>
-          <span className="font-black text-sm uppercase tracking-wider">Clear All Data</span>
+          <div className="text-left">
+            <span className="block font-black text-sm uppercase tracking-wider">Reset Account</span>
+            <span className="block text-[10px] font-bold text-red-500/40 uppercase tracking-widest mt-0.5">Delete All Data Permanently</span>
+          </div>
         </button>
       </motion.div>
 
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="bg-blue-500/5 dark:bg-blue-900/10 backdrop-blur-xl p-8 rounded-[2.5rem] border border-blue-500/10 shadow-xl shadow-blue-500/5"
+        className="bg-blue-600/5 backdrop-blur-3xl p-10 rounded-[3rem] border border-blue-500/10 relative overflow-hidden group"
       >
-        <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black mb-3 tracking-tight uppercase text-xs">
-          <Info size={16} />
-          About OpenMacro
+        <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+          <Info size={80} className="text-blue-500" />
         </div>
-        <p className="text-xs text-blue-700/70 dark:text-blue-300/60 leading-relaxed font-bold">
-          OpenMacro is a free, open-source, and private nutrition tracker. Your data never leaves your device.
-          The TDEE algorithm adapts to your metabolic rate based on your actual weight and intake trends.
+        <div className="flex items-center gap-2 text-blue-500 font-black mb-6 tracking-[0.2em] uppercase text-[10px]">
+          <Info size={16} />
+          Intelligence Engine
+        </div>
+        <p className="text-sm text-white/60 leading-relaxed font-bold">
+          OpenMacro is built on privacy. Your metabolic data (TDEE) is calculated locally using a 20-day EMA weight smoothing algorithm.
+          This ensures your insights remain yours alone.
         </p>
       </motion.div>
 
       <motion.div
         variants={itemVariants}
-        className="text-center text-[10px] font-black text-gray-300 pt-4 uppercase tracking-[0.2em]"
+        className="text-center pt-8"
       >
-        OpenMacro v0.1.0 • Built with Privacy
+        <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] mb-2">
+          OpenMacro v0.1.0
+        </div>
+        <div className="h-px w-8 bg-white/10 mx-auto mb-2" />
+        <div className="text-[8px] font-black text-blue-500/30 uppercase tracking-[0.2em]">
+          Experimental Cinematic Build
+        </div>
       </motion.div>
     </motion.div>
   );
