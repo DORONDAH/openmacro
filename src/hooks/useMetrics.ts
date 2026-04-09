@@ -1,13 +1,14 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db/db';
-import { calculateWeightEMA } from '../logic/tdee';
-import { format } from 'date-fns';
+import { calculateWeightEMA, calculateAdaptedTDEE } from '../logic/tdee';
+import { format, subDays } from 'date-fns';
 
 /**
  * Hook to calculate current metrics, macros, and trends from IndexedDB
  */
 export function useMetrics() {
   const today = format(new Date(), 'yyyy-MM-dd');
+  const fourteenDaysAgo = format(subDays(new Date(), 14), 'yyyy-MM-dd');
 
   // Today's Meals
   const todayMeals = useLiveQuery(
@@ -19,6 +20,12 @@ export function useMetrics() {
   const allWeights = useLiveQuery(
     () => db.weights.orderBy('date').toArray(),
     []
+  );
+
+  // Last 14 days of meals for TDEE calculation
+  const recentMeals = useLiveQuery(
+    () => db.meals.where('date').aboveOrEqual(fourteenDaysAgo).toArray(),
+    [fourteenDaysAgo]
   );
 
   // Today's macros summary
@@ -36,20 +43,31 @@ export function useMetrics() {
   let weightTrend: number | null = null;
   const trendData = allWeights?.map(w => {
     weightTrend = calculateWeightEMA(w.value, weightTrend);
-    return { ...w, trend: weightTrend };
+    return { ...w, trend: weightTrend! };
   }) || [];
 
   const currentTrendWeight = trendData.length > 0 ? trendData[trendData.length - 1].trend : null;
 
   // Calculate Adapted TDEE (14-day window)
-  // This is a simplified version for the UI
-  const defaultTDEE = 2500; // Should come from settings
+  const defaultTDEE = 2500; // Should come from settings eventually
+  let adaptedTDEE = defaultTDEE;
+
+  if (trendData.length >= 14 && recentMeals) {
+    const endWeight = trendData[trendData.length - 1].trend;
+    const startWeight = trendData[trendData.length - 14].trend;
+    const weightDelta = endWeight - startWeight;
+
+    const totalCalories = recentMeals.reduce((sum, m) => sum + m.calories, 0);
+    const avgDailyIntake = totalCalories / 14;
+
+    adaptedTDEE = calculateAdaptedTDEE(avgDailyIntake, weightDelta, 14);
+  }
 
   return {
     todayMacros,
     todayMeals: todayMeals || [],
     currentTrendWeight,
     weightTrendData: trendData.slice(-7), // Last 7 days for the chart
-    currentTDEE: defaultTDEE, // For now
+    currentTDEE: adaptedTDEE,
   };
 }
