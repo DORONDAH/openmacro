@@ -13,41 +13,50 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
   const percentage = Math.min(Math.round((current / total) * 100), 100);
 
   return (
-    <div className="flex flex-col items-center justify-center py-16">
+    <div className="flex flex-col items-center justify-center py-8">
       <div className="relative w-80 h-80 flex items-center justify-center">
         {/* Dynamic ambient backdrop */}
         <motion.div
           animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-            opacity: [0.1, 0.2, 0.1]
+            scale: [1, 1.4, 1],
+            rotate: [0, 180, 360],
+            opacity: [0.1, 0.3, 0.1]
           }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0 rounded-full blur-[100px] -z-20"
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute inset-0 rounded-full blur-[120px] -z-20"
           style={{ backgroundColor: color }}
         />
 
-        {/* Outer orbital ring */}
-        <div className="absolute inset-0 rounded-full border border-white/5 opacity-20" />
+        {/* Outer orbital rings */}
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-0 rounded-full border border-dashed border-white/10 opacity-10"
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 rounded-full border border-white/5 opacity-40 shadow-[0_0_50px_rgba(59,130,246,0.1)]"
+        />
+        <motion.div
+          animate={{ rotate: -360 }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 rounded-full border border-dashed border-white/10 opacity-20"
         />
 
         <div
-          className="absolute inset-6 rounded-full border border-white/5 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden"
-          style={{ background: `radial-gradient(circle at center, ${color}15, transparent)` }}
+          className="absolute inset-8 rounded-full border border-white/10 backdrop-blur-3xl shadow-[0_0_120px_rgba(0,0,0,0.8)] overflow-hidden"
+          style={{ background: `radial-gradient(circle at center, ${color}20, transparent)` }}
         >
-          {/* Internal scanning shimmer */}
+          {/* Internal scanning shimmers */}
           <motion.div
             animate={{ y: ['-100%', '100%'] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-x-0 h-40 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-30"
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-x-0 h-40 bg-gradient-to-b from-transparent via-white/10 to-transparent opacity-40"
+          />
+          <motion.div
+            animate={{ x: ['-100%', '100%'] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 1 }}
+            className="absolute inset-y-0 w-40 bg-gradient-to-r from-transparent via-blue-500/10 to-transparent opacity-20"
           />
         </div>
 
-        <svg className="w-full h-full transform -rotate-90 relative z-10 p-4">
+        <svg className="w-full h-full transform -rotate-90 relative z-10 p-2">
           <defs>
             <linearGradient id={`gradient-${label}`} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor={color} />

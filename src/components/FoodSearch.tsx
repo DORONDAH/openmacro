@@ -70,9 +70,12 @@ const FoodSearch: React.FC<{ onBack: () => void; onAdded: () => void }> = ({ onB
           <ArrowLeft size={20} />
         </motion.button>
         <div className="flex flex-col gap-1">
-          <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-1">{t('search_page.db_search')}</div>
-          <h2 className="text-4xl font-black text-white tracking-tighter">{t('search_page.add_entry')}</h2>
-          <div className="h-1 w-12 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+          <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.6em] mb-2 animate-pulse flex items-center gap-3">
+            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+            {t('search_page.db_search')}
+          </div>
+          <h2 className="text-5xl font-black text-white tracking-tighter uppercase">{t('search_page.add_entry')}</h2>
+          <div className="h-1 w-16 bg-blue-600 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.6)] mt-2" />
         </div>
       </div>
 

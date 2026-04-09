@@ -64,15 +64,16 @@ const FoodEntryModal: React.FC<FoodEntryModalProps> = ({ product, onClose, onSav
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-blue-600/10 to-transparent -z-10" />
 
         <div className="p-10">
-          <div className="flex justify-between items-start mb-10">
+          <div className="flex justify-between items-start mb-12">
             <div className="flex flex-col gap-1">
-              <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.4em] mb-2 flex items-center gap-2">
-                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+              <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.6em] mb-3 animate-pulse flex items-center gap-3">
+                <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
                 {product ? t('modals.food_db') : t('modals.food_manual')}
               </div>
-              <h3 className="text-4xl font-black text-white tracking-tighter">
+              <h3 className="text-5xl font-black text-white tracking-tighter uppercase">
                 {product ? t('modals.food_confirm') : t('modals.food_quick')}
               </h3>
+              <div className="h-1 w-12 bg-blue-600 rounded-full shadow-[0_0_20px_rgba(59,130,246,0.6)] mt-2" />
             </div>
             <motion.button
               whileHover={{ scale: 1.1, rotate: 90 }}

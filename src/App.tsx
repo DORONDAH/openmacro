@@ -30,7 +30,7 @@ function App() {
       </AnimatePresence>
 
       <Layout currentView={view} onViewChange={setView}>
-        {view === 'dashboard' && <Dashboard />}
+        {view === 'dashboard' && <Dashboard onStartLogging={() => setView('search')} />}
         {view === 'search' && <FoodSearch onBack={() => setView('dashboard')} onAdded={handleFoodAdded} />}
         {view === 'trends' && <Trends />}
         {view === 'settings' && <Settings />}

@@ -8,7 +8,11 @@ import TDEEInfoModal from './TDEEInfoModal';
 import { useMetrics } from '../hooks/useMetrics';
 import { db } from '../db/db';
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onStartLogging?: () => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ onStartLogging }) => {
   const { t } = useTranslation();
   const { todayMacros, todayMeals, currentTrendWeight, currentTDEE, targets } = useMetrics();
   const [showWeightModal, setShowWeightModal] = useState(false);
@@ -46,19 +50,30 @@ const Dashboard: React.FC = () => {
       animate="visible"
       className="space-y-12 pb-32"
     >
-      {/* Featured Hero Section */}
+      {/* Cinematic Hero Section - Centered and Dramatic */}
       <motion.div
         variants={itemVariants}
-        className="relative flex flex-col items-center justify-center pt-8"
+        className="relative min-h-[60vh] flex flex-col items-center justify-center pt-12"
       >
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-blue-500/10 blur-[120px] rounded-full -z-10" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-500/10 blur-[140px] rounded-full -z-10 animate-pulse" />
 
-        <MacroCircle
-          current={todayMacros.calories}
-          total={targets.calories}
-          label={t('macros.calories')}
-          color="#3b82f6"
-        />
+        <div className="flex flex-col items-center gap-2 mb-8">
+          <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.6em] animate-pulse flex items-center gap-3">
+            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+            {t('dashboard.title')}
+            <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
+          </div>
+          <h2 className="text-4xl font-black text-white tracking-tighter uppercase">{t('dashboard.log_today')}</h2>
+        </div>
+
+        <div className="scale-110 md:scale-125">
+          <MacroCircle
+            current={todayMacros.calories}
+            total={targets.calories}
+            label={t('macros.calories')}
+            color="#3b82f6"
+          />
+        </div>
       </motion.div>
 
       {/* Row: Macros Grid */}
@@ -166,8 +181,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         <div className="px-2">
-          <div className="glass-card p-8 rounded-[3rem] space-y-2 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+          <div className="glass-card p-10 rounded-[3.5rem] space-y-4 relative overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
             {todayMeals.length > 0 ? (
               todayMeals.map((meal, idx) => (
                 <motion.div
@@ -175,40 +190,40 @@ const Dashboard: React.FC = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 * idx }}
-                  className="flex justify-between items-center py-6 border-b border-white/5 last:border-0 group cursor-pointer"
+                  className="flex justify-between items-center py-8 px-6 rounded-[2rem] border border-transparent hover:border-white/10 hover:bg-white/5 transition-all group cursor-pointer relative overflow-hidden"
                 >
-                  <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center text-blue-500 font-black text-lg group-hover:bg-blue-500/10 transition-colors shadow-inner">
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/5 to-blue-600/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                  <div className="flex items-center gap-8 relative z-10">
+                    <div className="w-16 h-16 bg-white/5 rounded-[1.5rem] flex items-center justify-center text-blue-500 font-black text-2xl group-hover:bg-blue-500/20 group-hover:scale-110 transition-all shadow-inner ring-1 ring-white/10">
                       {meal.name.charAt(0)}
                     </div>
                     <div>
-                      <div className="font-black text-base text-white group-hover:text-blue-400 transition-colors tracking-tight">{meal.name}</div>
-                      <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mt-1 flex gap-2">
-                        <span>{Math.round(meal.protein)}P</span>
-                        <span className="text-white/5">•</span>
-                        <span>{Math.round(meal.carbs)}C</span>
-                        <span className="text-white/5">•</span>
-                        <span>{Math.round(meal.fat)}F</span>
+                      <div className="font-black text-xl text-white group-hover:text-blue-400 transition-colors tracking-tight mb-1">{meal.name}</div>
+                      <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] flex gap-3">
+                        <span className="flex items-center gap-1"><div className="w-1 h-1 bg-blue-500/50 rounded-full" /> {Math.round(meal.protein)}P</span>
+                        <span className="flex items-center gap-1"><div className="w-1 h-1 bg-emerald-500/50 rounded-full" /> {Math.round(meal.carbs)}C</span>
+                        <span className="flex items-center gap-1"><div className="w-1 h-1 bg-orange-500/50 rounded-full" /> {Math.round(meal.fat)}F</span>
                       </div>
                     </div>
                   </div>
-                  <div className="text-right rtl:text-left flex items-center gap-4">
+                  <div className="text-right rtl:text-left flex items-center gap-6 relative z-10">
                     <div className="flex flex-col items-end rtl:items-start">
-                      <div className="text-2xl font-black text-white tracking-tighter group-hover:scale-110 transition-transform origin-right rtl:origin-left">
+                      <div className="text-3xl font-black text-white tracking-tighter group-hover:scale-110 transition-transform origin-right rtl:origin-left">
                         {meal.calories}
                       </div>
-                      <div className="text-[8px] text-white/20 font-black uppercase tracking-widest mt-0.5">kcal</div>
+                      <div className="text-[9px] text-white/20 font-black uppercase tracking-[0.4em] mt-1">kcal</div>
                     </div>
                     <motion.button
-                      whileHover={{ scale: 1.1, color: '#ef4444' }}
+                      whileHover={{ scale: 1.2, color: '#ef4444' }}
                       whileTap={{ scale: 0.9 }}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDeleteMeal(meal.id!);
                       }}
-                      className="p-2 text-white/5 group-hover:text-white/20 transition-colors"
+                      className="p-3 bg-white/5 rounded-xl text-white/5 group-hover:text-white/20 hover:bg-red-500/10 transition-all"
                     >
-                      <Trash2 size={16} />
+                      <Trash2 size={18} />
                     </motion.button>
                   </div>
                 </motion.div>
@@ -242,6 +257,7 @@ const Dashboard: React.FC = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={onStartLogging}
                   className="mt-4 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] hover:bg-white/10 transition-all"
                 >
                   {t('dashboard.init_log')}

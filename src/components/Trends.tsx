@@ -53,9 +53,12 @@ const Trends: React.FC = () => {
       className="space-y-10 pb-32 px-2"
     >
       <div className="flex flex-col gap-1 px-4 mb-8">
-        <div className="text-[10px] font-black text-purple-500 uppercase tracking-[0.3em] mb-1">{t('dashboard.performance_analytics')}</div>
-        <h2 className="text-4xl font-black text-white tracking-tighter">{t('dashboard.trends')}</h2>
-        <div className="h-1 w-12 bg-purple-600 rounded-full shadow-[0_0_15px_rgba(147,51,234,0.5)]" />
+        <div className="text-[10px] font-black text-purple-500 uppercase tracking-[0.6em] mb-2 animate-pulse flex items-center gap-3">
+          <div className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
+          {t('dashboard.performance_analytics')}
+        </div>
+        <h2 className="text-5xl font-black text-white tracking-tighter uppercase">{t('dashboard.trends')}</h2>
+        <div className="h-1 w-16 bg-purple-600 rounded-full shadow-[0_0_20px_rgba(147,51,234,0.6)] mt-2" />
       </div>
 
       {/* Hero Trend Card */}

@@ -21,29 +21,41 @@ const Layout: React.FC<LayoutProps> = ({ children, currentView, onViewChange }) 
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
           animate={{
-            x: [0, 100, 0],
-            y: [0, -100, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-40 -start-40 w-[60rem] h-[60rem] bg-blue-600/5 rounded-full blur-[160px]"
-        />
-        <motion.div
-          animate={{
-            x: [0, -120, 0],
-            y: [0, 100, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-60 -end-60 w-[70rem] h-[70rem] bg-purple-600/5 rounded-full blur-[180px]"
-        />
-        <motion.div
-          animate={{
-            opacity: [0.05, 0.15, 0.05],
-            scale: [0.8, 1, 0.8],
+            x: [0, 80, 0],
+            y: [0, -60, 0],
+            scale: [1, 1.1, 1],
+            rotate: [0, 45, 0]
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[20%] end-[10%] w-80 h-80 bg-emerald-600/5 rounded-full blur-[120px]"
+          className="absolute -top-60 -start-60 w-[80rem] h-[80rem] bg-blue-600/10 rounded-full blur-[180px] mix-blend-screen"
+        />
+        <motion.div
+          animate={{
+            x: [0, -100, 0],
+            y: [0, 80, 0],
+            scale: [1, 1.2, 1],
+            rotate: [0, -45, 0]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-80 -end-80 w-[90rem] h-[90rem] bg-purple-600/10 rounded-full blur-[200px] mix-blend-screen"
+        />
+
+        {/* Floating cinematic particles/objects */}
+        <motion.div
+          animate={{
+            y: [-20, 20, -20],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-1/4 start-1/4 w-32 h-32 bg-blue-400/20 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            y: [20, -20, 20],
+            opacity: [0.05, 0.2, 0.05],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-1/4 end-1/3 w-48 h-48 bg-purple-400/20 rounded-full blur-3xl"
         />
 
         {/* Cinematic noise/grain overlay */}
