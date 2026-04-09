@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Languages, Database, Info, Moon } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { db } from '../db/db';
 
 const Settings: React.FC = () => {
@@ -22,54 +23,87 @@ const Settings: React.FC = () => {
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold mb-6">{t('dashboard.title')} - Settings</h2>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
 
-      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+  const itemVariants = {
+    hidden: { y: 10, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+
+  return (
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-6 pb-24"
+    >
+      <h2 className="text-2xl font-black mb-6 px-2">{t('dashboard.title')} - Settings</h2>
+
+      <motion.div
+        variants={itemVariants}
+        className="bg-white dark:bg-gray-800 rounded-[2.5rem] shadow-xl shadow-gray-500/5 border border-gray-100 dark:border-gray-700 overflow-hidden"
+      >
         <button
           onClick={toggleLanguage}
-          className="w-full flex items-center justify-between p-5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700"
+          className="w-full flex items-center justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700"
         >
-          <div className="flex items-center gap-3">
-            <Languages size={20} className="text-blue-500" />
-            <span className="font-medium">Language / שפה</span>
+          <div className="flex items-center gap-4">
+            <div className="p-2 bg-blue-500/10 rounded-xl">
+              <Languages size={20} className="text-blue-500" />
+            </div>
+            <span className="font-black text-sm uppercase tracking-wider">Language / שפה</span>
           </div>
-          <span className="text-sm text-gray-500">{i18n.language === 'en' ? 'English' : 'עברית'}</span>
+          <span className="text-xs font-bold text-gray-400 bg-gray-100 dark:bg-gray-900 px-3 py-1 rounded-full">{i18n.language === 'en' ? 'English' : 'עברית'}</span>
         </button>
 
-        <div className="w-full flex items-center justify-between p-5 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700">
-          <div className="flex items-center gap-3">
-            <Moon size={20} className="text-purple-500" />
-            <span className="font-medium">Dark Mode</span>
+        <div className="w-full flex items-center justify-between p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700">
+          <div className="flex items-center gap-4">
+            <div className="p-2 bg-purple-500/10 rounded-xl">
+              <Moon size={20} className="text-purple-500" />
+            </div>
+            <span className="font-black text-sm uppercase tracking-wider">Dark Mode</span>
           </div>
-          <span className="text-sm text-gray-500">Auto</span>
+          <span className="text-xs font-bold text-gray-400 bg-gray-100 dark:bg-gray-900 px-3 py-1 rounded-full">Auto</span>
         </div>
 
         <button
           onClick={handleClearData}
-          className="w-full flex items-center gap-3 p-5 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+          className="w-full flex items-center gap-4 p-6 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
         >
-          <Database size={20} />
-          <span className="font-medium">Clear All Data</span>
+          <div className="p-2 bg-red-500/10 rounded-xl">
+            <Database size={20} />
+          </div>
+          <span className="font-black text-sm uppercase tracking-wider">Clear All Data</span>
         </button>
-      </div>
+      </motion.div>
 
-      <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-3xl border border-blue-100 dark:border-blue-900/30">
-        <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold mb-2">
-          <Info size={18} />
+      <motion.div
+        variants={itemVariants}
+        className="bg-blue-500/5 dark:bg-blue-900/10 p-8 rounded-[2.5rem] border border-blue-500/10"
+      >
+        <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-black mb-3 tracking-tight uppercase text-xs">
+          <Info size={16} />
           About OpenMacro
         </div>
-        <p className="text-sm text-blue-800/70 dark:text-blue-300/70 leading-relaxed">
+        <p className="text-xs text-blue-700/70 dark:text-blue-300/60 leading-relaxed font-bold">
           OpenMacro is a free, open-source, and private nutrition tracker. Your data never leaves your device.
           The TDEE algorithm adapts to your metabolic rate based on your actual weight and intake trends.
         </p>
-      </div>
+      </motion.div>
 
-      <div className="text-center text-xs text-gray-400 pt-4">
+      <motion.div
+        variants={itemVariants}
+        className="text-center text-[10px] font-black text-gray-300 pt-4 uppercase tracking-[0.2em]"
+      >
         OpenMacro v0.1.0 • Built with Privacy
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

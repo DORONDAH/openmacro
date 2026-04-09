@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 
 interface MacroCircleProps {
   current: number;
@@ -15,37 +16,56 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-24 h-24 flex items-center justify-center">
+      <div className="relative w-32 h-32 flex items-center justify-center">
+        {/* Shadow glow effect */}
+        <div
+          className="absolute inset-4 rounded-full blur-2xl opacity-20"
+          style={{ backgroundColor: color }}
+        />
+
         <svg className="w-full h-full transform -rotate-90">
           <circle
-            cx="48"
-            cy="48"
+            cx="64"
+            cy="64"
             r="40"
             stroke="currentColor"
-            strokeWidth="8"
+            strokeWidth="10"
             fill="transparent"
-            className="text-gray-200 dark:text-gray-700"
+            className="text-gray-100 dark:text-gray-800"
           />
-          <circle
-            cx="48"
-            cy="48"
+          <motion.circle
+            cx="64"
+            cy="64"
             r="40"
             stroke={color}
-            strokeWidth="8"
+            strokeWidth="10"
             fill="transparent"
             strokeDasharray={strokeDasharray}
-            strokeDashoffset={strokeDashoffset}
+            initial={{ strokeDashoffset: strokeDasharray }}
+            animate={{ strokeDashoffset }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
             strokeLinecap="round"
           />
         </svg>
         <div className="absolute flex flex-col items-center">
-          <span className="text-lg font-bold">{current}</span>
-          <span className="text-[10px] text-gray-500 uppercase">{label}</span>
+          <motion.span
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-2xl font-black"
+          >
+            {Math.round(current)}
+          </motion.span>
+          <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{label}</span>
         </div>
       </div>
-      <div className="mt-2 text-sm font-medium text-gray-500">
-        {total - current} kcal {percentage >= 100 ? t('common.over') : t('common.left')}
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="mt-4 text-sm font-bold text-gray-500 bg-gray-50 dark:bg-gray-800/50 px-4 py-1 rounded-full border border-gray-100 dark:border-gray-700"
+      >
+        {Math.abs(Math.round(total - current))} <span className="text-xs font-normal opacity-70">kcal</span> {percentage >= 100 ? t('common.over') : t('common.left')}
+      </motion.div>
     </div>
   );
 };

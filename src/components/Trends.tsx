@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import {
   ResponsiveContainer,
   LineChart,
@@ -13,7 +14,7 @@ import {
   ReferenceLine
 } from 'recharts';
 import { useMetrics } from '../hooks/useMetrics';
-import { Scale, TrendingUp, Zap, PieChart as PieIcon } from 'lucide-react';
+import { Scale, TrendingUp, Zap, PieChart as PieIcon, ChevronDown } from 'lucide-react';
 
 const Trends: React.FC = () => {
   const { t } = useTranslation();
@@ -24,37 +25,63 @@ const Trends: React.FC = () => {
     ? weightTrendData[weightTrendData.length - 1].trend - weightTrendData[weightTrendData.length - 7].trend
     : null;
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+
   return (
-    <div className="space-y-6 pb-20">
-      <h2 className="text-2xl font-bold mb-4">{t('dashboard.trends')}</h2>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-6 pb-24"
+    >
+      <h2 className="text-2xl font-black mb-6 px-2">{t('dashboard.trends')}</h2>
 
       {/* Weight Summary Card */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-between">
+      <motion.div
+        variants={cardVariants}
+        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-purple-500/5 border border-gray-100 dark:border-gray-700 flex items-center justify-between relative overflow-hidden"
+      >
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500" />
         <div>
-          <div className="text-gray-500 text-sm flex items-center gap-1 mb-1">
-            <Scale size={16} />
+          <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
+            <Scale size={14} className="text-purple-500" />
             {t('dashboard.weight_trend')}
           </div>
-          <div className="text-3xl font-black text-purple-600">
+          <div className="text-4xl font-black text-purple-600 tracking-tighter">
             {currentTrendWeight ? currentTrendWeight.toFixed(1) : '--.-'}
-            <span className="text-lg font-normal text-gray-400 ml-1">kg</span>
+            <span className="text-lg font-normal text-gray-300 ml-1">kg</span>
           </div>
         </div>
         <div className="text-right">
-          <div className="text-gray-500 text-sm flex items-center gap-1 justify-end mb-1">
-            <TrendingUp size={16} />
+          <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1 justify-end">
+            <TrendingUp size={14} />
             Weekly Change
           </div>
-          <div className={`text-xl font-bold ${weeklyChange && weeklyChange > 0 ? 'text-orange-500' : 'text-green-500'}`}>
-            {weeklyChange !== null ? (weeklyChange > 0 ? '+' : '') + weeklyChange.toFixed(2) : '--.--'} kg
+          <div className={`text-2xl font-black tracking-tight ${weeklyChange && weeklyChange > 0 ? 'text-orange-500' : 'text-emerald-500'}`}>
+            {weeklyChange !== null ? (weeklyChange > 0 ? '+' : '') + weeklyChange.toFixed(2) : '--.--'}
+            <span className="text-sm ml-1 opacity-50 font-bold">kg</span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Detailed Weight Chart */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <h3 className="font-bold mb-6 flex items-center gap-2">
-          <TrendingUp size={18} className="text-blue-500" />
+      <motion.div
+        variants={cardVariants}
+        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-blue-500/5 border border-gray-100 dark:border-gray-700"
+      >
+        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
+          <TrendingUp size={16} className="text-blue-500" />
           {t('dashboard.history_14d')}
         </h3>
         <div className="h-64 w-full">
@@ -66,51 +93,54 @@ const Trends: React.FC = () => {
                   dataKey="date"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#9ca3af' }}
+                  tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
                   tickFormatter={(str) => str.split('-').slice(1).join('/')}
                 />
                 <YAxis
                   domain={['dataMin - 0.5', 'dataMax + 0.5']}
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fontSize: 12, fill: '#9ca3af' }}
+                  tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
                 />
                 <Tooltip
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                 />
-                <Legend verticalAlign="top" height={36}/>
+                <Legend verticalAlign="top" height={36} wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase' }}/>
                 <Line
-                  name="Trend Weight"
+                  name="Trend"
                   type="monotone"
                   dataKey="trend"
                   stroke="#3b82f6"
                   strokeWidth={4}
                   dot={false}
-                  activeDot={{ r: 6 }}
+                  animationDuration={1500}
                 />
                 <Line
-                  name="Actual Weight"
+                  name="Actual"
                   type="monotone"
                   dataKey="value"
-                  stroke="#9ca3af"
+                  stroke="#e5e7eb"
                   strokeWidth={2}
                   strokeDasharray="5 5"
-                  dot={{ r: 4, fill: '#9ca3af' }}
+                  dot={{ r: 4, fill: '#9ca3af', strokeWidth: 0 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-full flex items-center justify-center text-gray-400 italic">
+            <div className="h-full flex items-center justify-center text-gray-400 font-bold italic">
               No weight data available yet.
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* Intake vs TDEE Chart */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <h3 className="font-bold mb-6 flex items-center gap-2">
-          <Zap size={18} className="text-yellow-500" />
+      <motion.div
+        variants={cardVariants}
+        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-yellow-500/5 border border-gray-100 dark:border-gray-700"
+      >
+        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
+          <Zap size={16} className="text-yellow-500" />
           {t('dashboard.intake_vs_tdee')}
         </h3>
         <div className="h-64 w-full">
@@ -121,28 +151,36 @@ const Trends: React.FC = () => {
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
+                tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
                 tickFormatter={(str) => str.split('-').slice(2).join('/')}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
+                tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
               />
               <Tooltip
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
               />
-              <Bar dataKey="calories" fill="#3b82f6" radius={[4, 4, 0, 0]} />
-              <ReferenceLine y={weeklyHistory[0]?.tdee} stroke="#ef4444" strokeDasharray="3 3" label={{ position: 'right', value: 'TDEE', fill: '#ef4444', fontSize: 10 }} />
+              <Bar dataKey="calories" fill="#3b82f6" radius={[6, 6, 0, 0]} animationDuration={1500} />
+              <ReferenceLine
+                y={weeklyHistory[0]?.tdee}
+                stroke="#ef4444"
+                strokeDasharray="3 3"
+                label={{ position: 'right', value: 'TARGET', fill: '#ef4444', fontSize: 8, fontWeight: 'bold' }}
+              />
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
+      </motion.div>
 
       {/* Macro Distribution Chart */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-700">
-        <h3 className="font-bold mb-6 flex items-center gap-2">
-          <PieIcon size={18} className="text-green-500" />
+      <motion.div
+        variants={cardVariants}
+        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-emerald-500/5 border border-gray-100 dark:border-gray-700"
+      >
+        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
+          <PieIcon size={16} className="text-emerald-500" />
           {t('dashboard.macro_distribution')} (g)
         </h3>
         <div className="h-64 w-full">
@@ -153,35 +191,41 @@ const Trends: React.FC = () => {
                 dataKey="date"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
+                tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
                 tickFormatter={(str) => str.split('-').slice(2).join('/')}
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 12, fill: '#9ca3af' }}
+                tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
               />
               <Tooltip
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
               />
-              <Legend />
-              <Bar name={t('macros.protein')} dataKey="protein" stackId="a" fill="#3b82f6" />
-              <Bar name={t('macros.carbs')} dataKey="carbs" stackId="a" fill="#10b981" />
-              <Bar name={t('macros.fat')} dataKey="fat" stackId="a" fill="#f59e0b" />
+              <Legend wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase', paddingTop: '10px' }} />
+              <Bar name={t('macros.protein')} dataKey="protein" stackId="a" fill="#3b82f6" animationDuration={1500} />
+              <Bar name={t('macros.carbs')} dataKey="carbs" stackId="a" fill="#10b981" animationDuration={1500} />
+              <Bar name={t('macros.fat')} dataKey="fat" stackId="a" fill="#f59e0b" animationDuration={1500} />
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-3xl border border-blue-100 dark:border-blue-900/30">
-        <h4 className="font-bold text-blue-800 dark:text-blue-300 mb-2">How it works</h4>
-        <p className="text-sm text-blue-700/80 dark:text-blue-300/80 leading-relaxed">
+      <motion.div
+        variants={cardVariants}
+        className="bg-blue-500/5 dark:bg-blue-900/10 p-8 rounded-[2.5rem] border border-blue-500/10"
+      >
+        <h4 className="font-black text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2 tracking-tight">
+          How it works
+          <ChevronDown size={14} />
+        </h4>
+        <p className="text-xs text-blue-700/70 dark:text-blue-300/60 leading-relaxed font-bold">
           The blue line shows your 20-day weight trend (EMA). This filters out water weight
           fluctuations and gives you a better idea of your actual progress. Your TDEE is adapted
           based on how your trend weight changes relative to your calorie intake.
         </p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
