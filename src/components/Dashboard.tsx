@@ -155,11 +155,11 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="h-48 w-full">
           {weightTrendData.length > 1 ? (
-            <ResponsiveContainer width=\"100%\" height=\"100%\">
+            <ResponsiveContainer width="100%" height="100%">
               <LineChart data={weightTrendData}>
-                <CartesianGrid strokeDasharray=\"3 3\" vertical={false} stroke=\"#f0f0f0\" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
                 <XAxis
-                  dataKey=\"date\"
+                  dataKey="date"
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
@@ -171,25 +171,25 @@ const Dashboard: React.FC = () => {
                   labelFormatter={(str) => `Date: ${str}`}
                 />
                 <Line
-                  type=\"monotone\"
-                  dataKey=\"trend\"
-                  stroke=\"#3b82f6\"
+                  type="monotone"
+                  dataKey="trend"
+                  stroke="#3b82f6"
                   strokeWidth={4}
                   dot={false}
                   animationDuration={2000}
                 />
                 <Line
-                  type=\"monotone\"
-                  dataKey=\"value\"
-                  stroke=\"#e5e7eb\"
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#e5e7eb"
                   strokeWidth={2}
-                  strokeDasharray=\"4 4\"
+                  strokeDasharray="4 4"
                   dot={{ r: 4, fill: '#9ca3af', strokeWidth: 0 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <div className=\"h-full flex items-center justify-center text-gray-400 text-sm font-bold italic\">
+            <div className="h-full flex items-center justify-center text-gray-400 text-sm font-bold italic">
               Add a few days of weight entries to see trend
             </div>
           )}
@@ -202,7 +202,7 @@ const Dashboard: React.FC = () => {
         whileHover={cardHover}
         className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
       >
-        <h3 className=\"text-xs font-black text-gray-400 uppercase tracking-widest mb-6\">Today's Log</h3>
+        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">Today's Log</h3>
         <div className="space-y-4">
           {todayMeals.length > 0 ? (
             todayMeals.map((meal, idx) => (
