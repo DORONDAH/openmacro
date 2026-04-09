@@ -41,6 +41,12 @@ const Dashboard: React.FC = () => {
     visible: { y: 0, opacity: 1 }
   };
 
+  const cardHover = {
+    scale: 1.02,
+    y: -5,
+    transition: { type: "spring", stiffness: 400, damping: 10 }
+  };
+
   return (
     <motion.div
       variants={containerVariants}
@@ -51,7 +57,8 @@ const Dashboard: React.FC = () => {
       {/* Energy Balance Header */}
       <motion.div
         variants={itemVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-blue-500/5 border border-gray-100 dark:border-gray-700 relative overflow-hidden"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
 
@@ -101,8 +108,8 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-2 gap-4">
         <motion.div
           variants={itemVariants}
-          whileHover={{ scale: 1.02 }}
-          className="bg-white dark:bg-gray-800 p-6 rounded-[2rem] shadow-lg shadow-blue-500/5 border border-gray-100 dark:border-gray-700"
+          whileHover={cardHover}
+          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-blue-500/10 border border-white dark:border-gray-700"
         >
           <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
             <Zap size={12} className="text-blue-500" />
@@ -114,10 +121,10 @@ const Dashboard: React.FC = () => {
 
         <motion.button
           variants={itemVariants}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          whileHover={cardHover}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setShowWeightModal(true)}
-          className="bg-white dark:bg-gray-800 p-6 rounded-[2rem] shadow-lg shadow-purple-500/5 border border-gray-100 dark:border-gray-700 text-left transition-all"
+          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-purple-500/10 border border-white dark:border-gray-700 text-left transition-all"
         >
           <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
             <Scale size={12} className="text-purple-500" />
@@ -136,7 +143,8 @@ const Dashboard: React.FC = () => {
       {/* Weight Chart */}
       <motion.div
         variants={itemVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-gray-500/5 border border-gray-100 dark:border-gray-700"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
       >
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -147,11 +155,11 @@ const Dashboard: React.FC = () => {
         </div>
         <div className="h-48 w-full">
           {weightTrendData.length > 1 ? (
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width=\"100%\" height=\"100%\">
               <LineChart data={weightTrendData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                <CartesianGrid strokeDasharray=\"3 3\" vertical={false} stroke=\"#f0f0f0\" />
                 <XAxis
-                  dataKey="date"
+                  dataKey=\"date\"
                   axisLine={false}
                   tickLine={false}
                   tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 'bold' }}
@@ -163,25 +171,25 @@ const Dashboard: React.FC = () => {
                   labelFormatter={(str) => `Date: ${str}`}
                 />
                 <Line
-                  type="monotone"
-                  dataKey="trend"
-                  stroke="#3b82f6"
+                  type=\"monotone\"
+                  dataKey=\"trend\"
+                  stroke=\"#3b82f6\"
                   strokeWidth={4}
                   dot={false}
                   animationDuration={2000}
                 />
                 <Line
-                  type="monotone"
-                  dataKey="value"
-                  stroke="#e5e7eb"
+                  type=\"monotone\"
+                  dataKey=\"value\"
+                  stroke=\"#e5e7eb\"
                   strokeWidth={2}
-                  strokeDasharray="4 4"
+                  strokeDasharray=\"4 4\"
                   dot={{ r: 4, fill: '#9ca3af', strokeWidth: 0 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <div className="h-full flex items-center justify-center text-gray-400 text-sm font-bold italic">
+            <div className=\"h-full flex items-center justify-center text-gray-400 text-sm font-bold italic\">
               Add a few days of weight entries to see trend
             </div>
           )}
@@ -191,9 +199,10 @@ const Dashboard: React.FC = () => {
       {/* Today's Log */}
       <motion.div
         variants={itemVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-gray-500/5 border border-gray-100 dark:border-gray-700"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
       >
-        <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">Today's Log</h3>
+        <h3 className=\"text-xs font-black text-gray-400 uppercase tracking-widest mb-6\">Today's Log</h3>
         <div className="space-y-4">
           {todayMeals.length > 0 ? (
             todayMeals.map((meal, idx) => (

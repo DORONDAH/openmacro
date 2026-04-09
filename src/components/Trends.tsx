@@ -38,6 +38,12 @@ const Trends: React.FC = () => {
     visible: { y: 0, opacity: 1 }
   };
 
+  const cardHover = {
+    scale: 1.02,
+    y: -5,
+    transition: { type: "spring", stiffness: 400, damping: 10 }
+  };
+
   return (
     <motion.div
       variants={containerVariants}
@@ -50,7 +56,8 @@ const Trends: React.FC = () => {
       {/* Weight Summary Card */}
       <motion.div
         variants={cardVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-purple-500/5 border border-gray-100 dark:border-gray-700 flex items-center justify-between relative overflow-hidden"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-purple-500/10 border border-white dark:border-gray-700 flex items-center justify-between relative overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500" />
         <div>
@@ -78,7 +85,8 @@ const Trends: React.FC = () => {
       {/* Detailed Weight Chart */}
       <motion.div
         variants={cardVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-blue-500/5 border border-gray-100 dark:border-gray-700"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
           <TrendingUp size={16} className="text-blue-500" />
@@ -137,7 +145,8 @@ const Trends: React.FC = () => {
       {/* Intake vs TDEE Chart */}
       <motion.div
         variants={cardVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-yellow-500/5 border border-gray-100 dark:border-gray-700"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-yellow-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
           <Zap size={16} className="text-yellow-500" />
@@ -177,7 +186,8 @@ const Trends: React.FC = () => {
       {/* Macro Distribution Chart */}
       <motion.div
         variants={cardVariants}
-        className="bg-white dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-xl shadow-emerald-500/5 border border-gray-100 dark:border-gray-700"
+        whileHover={cardHover}
+        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-emerald-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
           <PieIcon size={16} className="text-emerald-500" />
@@ -213,7 +223,8 @@ const Trends: React.FC = () => {
 
       <motion.div
         variants={cardVariants}
-        className="bg-blue-500/5 dark:bg-blue-900/10 p-8 rounded-[2.5rem] border border-blue-500/10"
+        whileHover={cardHover}
+        className="bg-blue-500/5 dark:bg-blue-900/10 backdrop-blur-xl p-8 rounded-[2.5rem] border border-blue-500/10 shadow-xl shadow-blue-500/5"
       >
         <h4 className="font-black text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2 tracking-tight">
           How it works

@@ -15,8 +15,9 @@ const Layout: React.FC<LayoutProps> = ({ children, currentView, onViewChange }) 
   const isRtl = i18n.dir() === 'rtl';
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col font-sans">
-      <main className="flex-1 pb-32 pt-6 p-4 max-w-lg mx-auto w-full overflow-x-hidden">
+    <div className="min-h-screen text-gray-900 dark:text-gray-100 flex flex-col font-sans relative">
+      <div className="mesh-gradient" />
+      <main className="flex-1 pb-32 pt-6 p-4 max-w-lg mx-auto w-full overflow-x-hidden relative z-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView}
