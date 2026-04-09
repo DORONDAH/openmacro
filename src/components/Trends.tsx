@@ -10,11 +10,10 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
-  Legend,
   ReferenceLine
 } from 'recharts';
 import { useMetrics } from '../hooks/useMetrics';
-import { Scale, TrendingUp, Zap, PieChart as PieIcon, ChevronDown } from 'lucide-react';
+import { Scale, Zap } from 'lucide-react';
 
 const Trends: React.FC = () => {
   const { t } = useTranslation();
@@ -196,24 +195,6 @@ const Trends: React.FC = () => {
           </div>
         </motion.div>
       </div>
-    </motion.div>
-  );
-
-      <motion.div
-        variants={cardVariants}
-        whileHover={cardHover}
-        className="bg-blue-500/5 dark:bg-blue-900/10 backdrop-blur-xl p-8 rounded-[2.5rem] border border-blue-500/10 shadow-xl shadow-blue-500/5"
-      >
-        <h4 className="font-black text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2 tracking-tight">
-          How it works
-          <ChevronDown size={14} />
-        </h4>
-        <p className="text-xs text-blue-700/70 dark:text-blue-300/60 leading-relaxed font-bold">
-          The blue line shows your 20-day weight trend (EMA). This filters out water weight
-          fluctuations and gives you a better idea of your actual progress. Your TDEE is adapted
-          based on how your trend weight changes relative to your calorie intake.
-        </p>
-      </motion.div>
     </motion.div>
   );
 };

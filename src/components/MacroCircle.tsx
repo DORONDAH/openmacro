@@ -11,8 +11,6 @@ interface MacroCircleProps {
 const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color }) => {
   const { t } = useTranslation();
   const percentage = Math.min(Math.round((current / total) * 100), 100);
-  const strokeDasharray = 2 * Math.PI * 40;
-  const strokeDashoffset = strokeDasharray * (1 - percentage / 100);
 
   return (
     <div className="flex flex-col items-center justify-center py-12">

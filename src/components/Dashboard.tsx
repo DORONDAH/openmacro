@@ -1,23 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TrendingUp, Scale, Utensils, Plus, ChevronRight } from 'lucide-react';
+import { Scale, Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid
-} from 'recharts';
 import MacroCircle from './MacroCircle';
 import WeightModal from './WeightModal';
 import { useMetrics } from '../hooks/useMetrics';
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
-  const { todayMacros, todayMeals, weightTrendData, currentTrendWeight, currentTDEE } = useMetrics();
+  const { todayMacros, todayMeals, currentTrendWeight, currentTDEE } = useMetrics();
   const [showWeightModal, setShowWeightModal] = useState(false);
 
   // Targets
@@ -179,14 +170,6 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </motion.div>
-
-      <AnimatePresence>
-        {showWeightModal && (
-          <WeightModal onClose={() => setShowWeightModal(false)} />
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
 
       <AnimatePresence>
         {showWeightModal && (

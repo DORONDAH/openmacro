@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Home, Search, BarChart2, Settings, Plus } from 'lucide-react';
+import { Home, Search, BarChart2, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type View = 'dashboard' | 'search' | 'trends' | 'settings';
@@ -11,8 +11,7 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, currentView, onViewChange }) => {
-  const { i18n, t } = useTranslation();
-  const isRtl = i18n.dir() === 'rtl';
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen text-white flex flex-col font-sans relative overflow-hidden bg-[#050505]">
