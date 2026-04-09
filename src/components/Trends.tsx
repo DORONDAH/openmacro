@@ -186,5 +186,3 @@ const Trends: React.FC = () => {
 };
 
 export default Trends;
-
-export default Trends;
