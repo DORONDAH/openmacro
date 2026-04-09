@@ -34,18 +34,18 @@ const Dashboard: React.FC = () => {
       opacity: 1,
       transition: { staggerChildren: 0.1 }
     }
-  };
+  } as const;
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 }
-  };
+  } as const;
 
   const cardHover = {
     scale: 1.02,
     y: -5,
     transition: { type: "spring", stiffness: 400, damping: 10 }
-  };
+  } as const;
 
   return (
     <motion.div
