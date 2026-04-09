@@ -57,7 +57,7 @@ const Trends: React.FC = () => {
       <motion.div
         variants={cardVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-purple-500/10 border border-white dark:border-gray-700 flex items-center justify-between relative overflow-hidden"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-purple-500/10 border border-white dark:border-gray-700 flex items-center justify-between relative overflow-hidden"
       >
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-blue-500" />
         <div>
@@ -86,7 +86,7 @@ const Trends: React.FC = () => {
       <motion.div
         variants={cardVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
           <TrendingUp size={16} className="text-blue-500" />
@@ -146,7 +146,7 @@ const Trends: React.FC = () => {
       <motion.div
         variants={cardVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-yellow-500/10 border border-white dark:border-gray-700"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-yellow-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
           <Zap size={16} className="text-yellow-500" />
@@ -187,7 +187,7 @@ const Trends: React.FC = () => {
       <motion.div
         variants={cardVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-emerald-500/10 border border-white dark:border-gray-700"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-emerald-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-8 flex items-center gap-2">
           <PieIcon size={16} className="text-emerald-500" />

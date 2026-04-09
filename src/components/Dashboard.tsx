@@ -58,7 +58,7 @@ const Dashboard: React.FC = () => {
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700 relative overflow-hidden"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-blue-500/10 border border-white dark:border-gray-700 relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
 
@@ -109,7 +109,7 @@ const Dashboard: React.FC = () => {
         <motion.div
           variants={itemVariants}
           whileHover={cardHover}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-blue-500/10 border border-white dark:border-gray-700"
+          className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-blue-500/10 border border-white dark:border-gray-700"
         >
           <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
             <Zap size={12} className="text-blue-500" />
@@ -124,7 +124,7 @@ const Dashboard: React.FC = () => {
           whileHover={cardHover}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowWeightModal(true)}
-          className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-purple-500/10 border border-white dark:border-gray-700 text-left transition-all"
+          className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-6 rounded-[2rem] shadow-xl shadow-purple-500/10 border border-white dark:border-gray-700 text-left transition-all"
         >
           <div className="text-gray-400 text-[10px] font-black uppercase tracking-widest mb-2 flex items-center gap-1">
             <Scale size={12} className="text-purple-500" />
@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
       >
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
@@ -200,7 +200,7 @@ const Dashboard: React.FC = () => {
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700"
       >
         <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">Today's Log</h3>
         <div className="space-y-4">

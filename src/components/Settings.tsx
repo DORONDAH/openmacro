@@ -54,7 +54,7 @@ const Settings: React.FC = () => {
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700 overflow-hidden"
+        className="glass-card bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl shadow-gray-500/10 border border-white dark:border-gray-700 overflow-hidden"
       >
         <button
           onClick={toggleLanguage}

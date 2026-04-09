@@ -15,8 +15,37 @@ const Layout: React.FC<LayoutProps> = ({ children, currentView, onViewChange }) 
   const isRtl = i18n.dir() === 'rtl';
 
   return (
-    <div className="min-h-screen text-gray-900 dark:text-gray-100 flex flex-col font-sans relative">
+    <div className="min-h-screen text-gray-900 dark:text-gray-100 flex flex-col font-sans relative overflow-hidden">
       <div className="mesh-gradient" />
+
+      {/* Background Objects */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            rotate: [0, 10, 0],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[15%] -left-12 w-64 h-64 bg-blue-400/10 rounded-[3rem] blur-2xl"
+        />
+        <motion.div
+          animate={{
+            y: [0, 30, 0],
+            rotate: [0, -15, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[20%] -right-16 w-80 h-80 bg-purple-400/10 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [0, 20, 0],
+            y: [0, 20, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[40%] right-[10%] w-32 h-32 bg-emerald-400/10 rounded-[2rem] blur-xl"
+        />
+      </div>
+
       <main className="flex-1 pb-32 pt-6 p-4 max-w-lg mx-auto w-full overflow-x-hidden relative z-10">
         <AnimatePresence mode="wait">
           <motion.div
