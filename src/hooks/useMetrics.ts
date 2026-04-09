@@ -63,11 +63,26 @@ export function useMetrics() {
     adaptedTDEE = calculateAdaptedTDEE(avgDailyIntake, weightDelta, 14);
   }
 
+  // Weekly history (last 7 days)
+  const weeklyHistory = Array.from({ length: 7 }, (_, i) => {
+    const date = format(subDays(new Date(), i), 'yyyy-MM-dd');
+    const dayMeals = recentMeals?.filter(m => m.date === date) || [];
+    const macros = dayMeals.reduce((acc, m) => ({
+      calories: acc.calories + m.calories,
+      protein: acc.protein + m.protein,
+      fat: acc.fat + m.fat,
+      carbs: acc.carbs + m.carbs,
+    }), { calories: 0, protein: 0, fat: 0, carbs: 0 });
+
+    return { date, ...macros, tdee: adaptedTDEE };
+  }).reverse();
+
   return {
     todayMacros,
     todayMeals: todayMeals || [],
     currentTrendWeight,
-    weightTrendData: trendData.slice(-7), // Last 7 days for the chart
+    weightTrendData: trendData.slice(-14), // Last 14 days for more context
     currentTDEE: adaptedTDEE,
+    weeklyHistory,
   };
 }

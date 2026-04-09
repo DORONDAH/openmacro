@@ -16,6 +16,9 @@ const resources = {
         trends: 'Trends',
         settings: 'Settings',
         search: 'Search',
+        intake_vs_tdee: 'Intake vs TDEE',
+        macro_distribution: 'Macro Distribution',
+        history_14d: '14-Day History',
       },
       common: {
         add: 'Add',
@@ -50,6 +53,9 @@ const resources = {
         trends: 'מגמות',
         settings: 'הגדרות',
         search: 'חיפוש',
+        intake_vs_tdee: 'צריכה מול TDEE',
+        macro_distribution: 'התפלגות מאקרו',
+        history_14d: 'היסטוריה של 14 ימים',
       },
       common: {
         add: 'הוסף',
