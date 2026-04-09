@@ -24,6 +24,16 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
         />
 
         <svg className="w-full h-full transform -rotate-90">
+          <defs>
+            <linearGradient id={`gradient-${label}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={color} />
+              <stop offset="100%" stopColor={color} stopOpacity={0.6} />
+            </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
           <circle
             cx="64"
             cy="64"
@@ -37,7 +47,7 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
             cx="64"
             cy="64"
             r="40"
-            stroke={color}
+            stroke={`url(#gradient-${label})`}
             strokeWidth="10"
             fill="transparent"
             strokeDasharray={strokeDasharray}
@@ -45,6 +55,7 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
             animate={{ strokeDashoffset }}
             transition={{ duration: 1.5, ease: "easeOut" }}
             strokeLinecap="round"
+            filter="url(#glow)"
           />
         </svg>
         <div className="absolute flex flex-col items-center">
