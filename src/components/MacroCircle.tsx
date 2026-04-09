@@ -13,51 +13,72 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
   const percentage = Math.min(Math.round((current / total) * 100), 100);
 
   return (
-    <div className="flex flex-col items-center justify-center py-12">
-      <div className="relative w-64 h-64 flex items-center justify-center">
-        {/* Cinematic glow effect */}
-        <div
-          className="absolute inset-0 rounded-full blur-[60px] opacity-20 animate-pulse"
+    <div className="flex flex-col items-center justify-center py-16">
+      <div className="relative w-80 h-80 flex items-center justify-center">
+        {/* Dynamic ambient backdrop */}
+        <motion.div
+          animate={{
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 rounded-full blur-[100px] -z-20"
           style={{ backgroundColor: color }}
         />
 
-        <div
-          className="absolute inset-4 rounded-full border border-white/5 backdrop-blur-3xl shadow-2xl"
-          style={{ background: `radial-gradient(circle at center, ${color}10, transparent)` }}
+        {/* Outer orbital ring */}
+        <div className="absolute inset-0 rounded-full border border-white/5 opacity-20" />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0 rounded-full border border-dashed border-white/10 opacity-10"
         />
 
-        <svg className="w-full h-full transform -rotate-90 relative z-10">
+        <div
+          className="absolute inset-6 rounded-full border border-white/5 backdrop-blur-3xl shadow-[0_0_100px_rgba(0,0,0,0.5)] overflow-hidden"
+          style={{ background: `radial-gradient(circle at center, ${color}15, transparent)` }}
+        >
+          {/* Internal scanning shimmer */}
+          <motion.div
+            animate={{ y: ['-100%', '100%'] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-x-0 h-40 bg-gradient-to-b from-transparent via-white/5 to-transparent opacity-30"
+          />
+        </div>
+
+        <svg className="w-full h-full transform -rotate-90 relative z-10 p-4">
           <defs>
             <linearGradient id={`gradient-${label}`} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor={color} />
               <stop offset="100%" stopColor={color} stopOpacity={0.4} />
             </linearGradient>
-            <filter id="glow-cinematic" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="5" result="blur" />
+            <filter id="glow-hero" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
           <circle
-            cx="128"
-            cy="128"
-            r="100"
-            stroke="rgba(255,255,255,0.05)"
-            strokeWidth="12"
+            cx="144"
+            cy="144"
+            r="120"
+            stroke="rgba(255,255,255,0.03)"
+            strokeWidth="16"
             fill="transparent"
           />
           <motion.circle
-            cx="128"
-            cy="128"
-            r="100"
+            cx="144"
+            cy="144"
+            r="120"
             stroke={`url(#gradient-${label})`}
-            strokeWidth="12"
+            strokeWidth="16"
             fill="transparent"
-            strokeDasharray={2 * Math.PI * 100}
-            initial={{ strokeDashoffset: 2 * Math.PI * 100 }}
-            animate={{ strokeDashoffset: 2 * Math.PI * 100 * (1 - percentage / 100) }}
-            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
+            strokeDasharray={2 * Math.PI * 120}
+            initial={{ strokeDashoffset: 2 * Math.PI * 120 }}
+            animate={{ strokeDashoffset: 2 * Math.PI * 120 * (1 - percentage / 100) }}
+            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
             strokeLinecap="round"
-            filter="url(#glow-cinematic)"
+            filter="url(#glow-hero)"
           />
         </svg>
 
@@ -65,11 +86,15 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
           <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-7xl font-black tracking-tighter text-white drop-shadow-2xl"
+            className="text-8xl font-black tracking-tighter text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-baseline"
           >
             {Math.round(current)}
           </motion.div>
-          <div className="text-xs text-blue-400 font-black uppercase tracking-[0.3em] mt-1 opacity-80">{label}</div>
+          <div className="text-[10px] text-blue-500 font-black uppercase tracking-[0.5em] mt-2 opacity-80 flex items-center gap-3">
+             <div className="w-1 h-1 bg-blue-500 rounded-full animate-pulse" />
+             {label}
+             <div className="w-1 h-1 bg-blue-500 rounded-full animate-pulse" />
+          </div>
         </div>
       </div>
 
@@ -77,13 +102,13 @@ const MacroCircle: React.FC<MacroCircleProps> = ({ current, total, label, color 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1 }}
-        className="mt-12 flex flex-col items-center gap-2"
+        className="mt-14 flex flex-col items-center gap-3"
       >
-        <div className="text-4xl font-black text-white/90 tracking-tight">
+        <div className="text-5xl font-black text-white/90 tracking-tight flex items-baseline gap-2">
           {Math.abs(Math.round(total - current))}
-          <span className="text-lg font-bold text-white/40 ml-2 uppercase">kcal {percentage >= 100 ? t('common.over') : t('common.left')}</span>
+          <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">{percentage >= 100 ? t('common.over') : t('common.left')}</span>
         </div>
-        <div className="h-1 w-12 bg-blue-500 rounded-full opacity-50 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+        <div className="h-1 w-16 bg-blue-600 rounded-full opacity-30 shadow-[0_0_20px_rgba(59,130,246,0.5)]" />
       </motion.div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Languages, Database, Info, Moon } from 'lucide-react';
+import { Languages, Database, Info, Moon, Shield, Sparkles, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { db } from '../db/db';
 
@@ -12,7 +12,7 @@ const Settings: React.FC = () => {
   };
 
   const handleClearData = async () => {
-    if (confirm('Are you sure you want to delete all your data? This cannot be undone.')) {
+    if (confirm(t('settings_page.reset_confirm'))) {
       await Promise.all([
         db.weights.clear(),
         db.meals.clear(),
@@ -32,13 +32,12 @@ const Settings: React.FC = () => {
   } as const;
 
   const itemVariants = {
-    hidden: { y: 10, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 }
   } as const;
 
   const cardHover = {
-    scale: 1.02,
-    y: -5,
+    scale: 1.01,
     transition: { type: "spring", stiffness: 400, damping: 10 }
   } as const;
 
@@ -47,89 +46,107 @@ const Settings: React.FC = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-8 pb-32"
+      className="space-y-8 pb-32 px-2"
     >
       <div className="flex flex-col gap-1 px-4 mb-8">
+        <div className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-1">{t('settings_page.configuration')}</div>
         <h2 className="text-4xl font-black text-white tracking-tighter">{t('dashboard.settings')}</h2>
         <div className="h-1 w-12 bg-blue-600 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
       </div>
 
       <motion.div
         variants={itemVariants}
-        whileHover={cardHover}
-        className="glass-card rounded-[3rem] overflow-hidden"
+        className="glass-card rounded-[3.5rem] overflow-hidden divide-y divide-white/5 shadow-[0_30px_80px_rgba(0,0,0,0.6)] border border-white/5"
       >
-        <button
+        <motion.button
+          whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}
           onClick={toggleLanguage}
-          className="w-full flex items-center justify-between p-8 hover:bg-white/5 transition-colors border-b border-white/5"
+          className="w-full flex items-center justify-between p-10 transition-colors group relative"
         >
-          <div className="flex items-center gap-6">
-            <div className="p-3 bg-blue-500/10 rounded-2xl">
-              <Languages size={24} className="text-blue-500" />
+          <div className="absolute inset-y-0 start-0 w-1 bg-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="flex items-center gap-8">
+            <div className="p-5 bg-blue-500/10 rounded-[1.8rem] group-hover:scale-110 group-hover:bg-blue-500/20 transition-all duration-500 shadow-inner ring-1 ring-white/5">
+              <Languages size={28} className="text-blue-500" />
             </div>
-            <div className="text-left">
-              <span className="block font-black text-sm uppercase tracking-wider text-white">Language</span>
-              <span className="block text-[10px] font-bold text-white/30 uppercase tracking-widest mt-0.5">Change App Language</span>
-            </div>
-          </div>
-          <span className="text-[10px] font-black text-blue-500 bg-blue-500/10 px-4 py-2 rounded-full uppercase tracking-widest">{i18n.language === 'en' ? 'English' : 'עברית'}</span>
-        </button>
-
-        <div className="w-full flex items-center justify-between p-8 hover:bg-white/5 transition-colors border-b border-white/5">
-          <div className="flex items-center gap-6">
-            <div className="p-3 bg-purple-500/10 rounded-2xl">
-              <Moon size={24} className="text-purple-500" />
-            </div>
-            <div className="text-left">
-              <span className="block font-black text-sm uppercase tracking-wider text-white">Theme</span>
-              <span className="block text-[10px] font-bold text-white/30 uppercase tracking-widest mt-0.5">Dark Mode Always</span>
+            <div className="text-start">
+              <span className="block font-black text-lg uppercase tracking-widest text-white">{t('settings_page.language_title')}</span>
+              <span className="block text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mt-1.5 italic">{t('settings_page.language_desc')}</span>
             </div>
           </div>
-          <span className="text-[10px] font-black text-purple-500 bg-purple-500/10 px-4 py-2 rounded-full uppercase tracking-widest italic">Cinematic</span>
-        </div>
+          <div className="flex items-center gap-4">
+             <span className="text-[10px] font-black text-blue-500 bg-blue-500/10 px-6 py-2.5 rounded-2xl uppercase tracking-widest border border-blue-500/20 shadow-lg">{i18n.language === 'en' ? 'English' : 'עברית'}</span>
+             <ChevronRight size={18} className="text-white/10 group-hover:text-white/40 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all" />
+          </div>
+        </motion.button>
 
-        <button
+        <motion.div
+          whileHover={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}
+          className="w-full flex items-center justify-between p-10 group transition-colors relative"
+        >
+          <div className="absolute inset-y-0 start-0 w-1 bg-purple-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="flex items-center gap-8">
+            <div className="p-5 bg-purple-500/10 rounded-[1.8rem] group-hover:scale-110 group-hover:bg-purple-500/20 transition-all duration-500 shadow-inner ring-1 ring-white/5">
+              <Moon size={28} className="text-purple-500" />
+            </div>
+            <div className="text-start">
+              <span className="block font-black text-lg uppercase tracking-widest text-white">{t('settings_page.visual_title')}</span>
+              <span className="block text-[10px] font-black text-white/20 uppercase tracking-[0.3em] mt-1.5 italic">{t('settings_page.visual_desc')}</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <Sparkles size={14} className="text-purple-500 animate-pulse" />
+            <span className="text-[10px] font-black text-purple-500 bg-purple-500/10 px-6 py-2.5 rounded-2xl uppercase tracking-widest border border-purple-500/20 shadow-lg">{t('settings_page.visual_active')}</span>
+          </div>
+        </motion.div>
+
+        <motion.button
+          whileHover={{ backgroundColor: 'rgba(239, 68, 68, 0.05)' }}
           onClick={handleClearData}
-          className="w-full flex items-center gap-6 p-8 text-red-500 hover:bg-red-500/5 transition-colors"
+          className="w-full flex items-center justify-between p-10 group transition-colors relative"
         >
-          <div className="p-3 bg-red-500/10 rounded-2xl">
-            <Database size={24} />
+          <div className="absolute inset-y-0 start-0 w-1 bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="flex items-center gap-8">
+            <div className="p-5 bg-red-500/10 rounded-[1.8rem] group-hover:scale-110 group-hover:bg-red-500/20 transition-all duration-500 shadow-inner ring-1 ring-white/5">
+              <Database size={28} className="text-red-500" />
+            </div>
+            <div className="text-start">
+              <span className="block font-black text-lg uppercase tracking-widest text-red-500">{t('settings_page.reset_title')}</span>
+              <span className="block text-[10px] font-black text-red-500/30 uppercase tracking-[0.3em] mt-1.5 italic">{t('settings_page.reset_desc')}</span>
+            </div>
           </div>
-          <div className="text-left">
-            <span className="block font-black text-sm uppercase tracking-wider">Reset Account</span>
-            <span className="block text-[10px] font-bold text-red-500/40 uppercase tracking-widest mt-0.5">Delete All Data Permanently</span>
-          </div>
-        </button>
+          <ChevronRight size={18} className="text-red-500/10 group-hover:text-red-500/40 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-all" />
+        </motion.button>
       </motion.div>
 
       <motion.div
         variants={itemVariants}
         whileHover={cardHover}
-        className="bg-blue-600/5 backdrop-blur-3xl p-10 rounded-[3rem] border border-blue-500/10 relative overflow-hidden group"
+        className="bg-blue-600/5 backdrop-blur-3xl p-10 rounded-[3rem] border border-blue-500/10 relative overflow-hidden group shadow-2xl"
       >
-        <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-          <Info size={80} className="text-blue-500" />
+        <div className="absolute -top-10 -end-10 p-8 opacity-5 group-hover:opacity-10 group-hover:rotate-12 transition-all duration-700">
+          <Shield size={160} className="text-blue-500" />
         </div>
-        <div className="flex items-center gap-2 text-blue-500 font-black mb-6 tracking-[0.2em] uppercase text-[10px]">
-          <Info size={16} />
-          Intelligence Engine
+        <div className="flex items-center gap-3 text-blue-500 font-black mb-6 tracking-[0.3em] uppercase text-[10px]">
+          <Shield size={16} />
+          {t('settings_page.privacy_title')}
         </div>
-        <p className="text-sm text-white/60 leading-relaxed font-bold">
-          OpenMacro is built on privacy. Your metabolic data (TDEE) is calculated locally using a 20-day EMA weight smoothing algorithm.
-          This ensures your insights remain yours alone.
+        <p className="text-base text-white/70 leading-relaxed font-bold tracking-tight">
+          {t('settings_page.privacy_desc')}
         </p>
       </motion.div>
 
       <motion.div
         variants={itemVariants}
-        className="text-center pt-8"
+        className="text-center pt-12"
       >
-        <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] mb-2">
-          OpenMacro v0.1.0
+        <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 rounded-2xl border border-white/5">
+          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+          <div className="text-[10px] font-black text-white/40 uppercase tracking-[0.4em]">
+            {t('settings_page.build_info')}
+          </div>
         </div>
-        <div className="h-px w-8 bg-white/10 mx-auto mb-2" />
-        <div className="text-[8px] font-black text-blue-500/30 uppercase tracking-[0.2em]">
-          Experimental Cinematic Build
+        <div className="mt-6 text-[8px] font-black text-white/10 uppercase tracking-[0.3em]">
+          {t('settings_page.footer')}
         </div>
       </motion.div>
     </motion.div>

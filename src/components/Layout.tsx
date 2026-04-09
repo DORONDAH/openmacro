@@ -18,44 +18,49 @@ const Layout: React.FC<LayoutProps> = ({ children, currentView, onViewChange }) 
       <div className="mesh-gradient" />
 
       {/* Background Objects */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <motion.div
           animate={{
-            y: [0, -40, 0],
-            rotate: [0, 20, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[10%] -left-20 w-[40rem] h-[40rem] bg-blue-600/5 rounded-full blur-[120px]"
-        />
-        <motion.div
-          animate={{
-            y: [0, 60, 0],
-            rotate: [0, -25, 0],
+            x: [0, 100, 0],
+            y: [0, -100, 0],
             scale: [1, 1.2, 1],
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-[10%] -right-32 w-[50rem] h-[50rem] bg-purple-600/5 rounded-full blur-[150px]"
+          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-40 -start-40 w-[60rem] h-[60rem] bg-blue-600/5 rounded-full blur-[160px]"
         />
         <motion.div
           animate={{
-            x: [0, 40, 0],
-            y: [0, 40, 0],
-            opacity: [0.1, 0.2, 0.1],
+            x: [0, -120, 0],
+            y: [0, 100, 0],
+            scale: [1, 1.3, 1],
           }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute top-[30%] right-[5%] w-96 h-96 bg-emerald-600/5 rounded-full blur-[100px]"
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -bottom-60 -end-60 w-[70rem] h-[70rem] bg-purple-600/5 rounded-full blur-[180px]"
         />
+        <motion.div
+          animate={{
+            opacity: [0.05, 0.15, 0.05],
+            scale: [0.8, 1, 0.8],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-[20%] end-[10%] w-80 h-80 bg-emerald-600/5 rounded-full blur-[120px]"
+        />
+
+        {/* Cinematic noise/grain overlay */}
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
       </div>
 
       <main className="flex-1 pb-40 pt-12 p-4 max-w-lg mx-auto w-full overflow-x-hidden relative z-10">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentView}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
+            transition={{
+              duration: 0.6,
+              ease: [0.22, 1, 0.36, 1]
+            }}
           >
             {children}
           </motion.div>

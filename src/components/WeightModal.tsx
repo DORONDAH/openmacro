@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 import { db } from '../db/db';
 import { format } from 'date-fns';
+import { X, Save, Scale, Calendar } from 'lucide-react';
 
 interface WeightModalProps {
   onClose: () => void;
@@ -28,52 +30,100 @@ const WeightModal: React.FC<WeightModalProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-sm p-6 shadow-2xl">
-        <h3 className="text-xl font-bold mb-4">{t('common.weight')}</h3>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
+      />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-500 mb-1">{t('common.date')}</label>
-            <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900 outline-none"
-            />
-          </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        className="glass-card w-full max-w-md rounded-[3.5rem] overflow-hidden relative z-10 shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/10"
+      >
+        <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-purple-600/10 to-transparent -z-10" />
 
-          <div>
-            <label className="block text-sm font-medium text-gray-500 mb-1">{t('common.value_kg')}</label>
-            <input
-              type="number"
-              step="0.1"
-              required
-              autoFocus
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              placeholder="0.0"
-              className="w-full px-4 py-3 text-2xl font-bold border border-gray-200 dark:border-gray-700 rounded-xl bg-gray-50 dark:bg-gray-900 outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="flex gap-3 pt-4">
-            <button
-              type="button"
+        <div className="p-10">
+          <div className="flex justify-between items-start mb-10">
+            <div className="flex flex-col gap-1">
+              <div className="text-[10px] font-black text-purple-500 uppercase tracking-[0.4em] mb-2 flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-purple-500 rounded-full animate-pulse" />
+                {t('modals.weight_title')}
+              </div>
+              <h3 className="text-4xl font-black text-white tracking-tighter">
+                {t('common.weight')}
+              </h3>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 90 }}
+              whileTap={{ scale: 0.9 }}
               onClick={onClose}
-              className="flex-1 py-3 text-gray-600 font-medium hover:bg-gray-100 rounded-xl transition-colors"
+              className="p-3 bg-white/5 rounded-2xl text-white/20 hover:text-white transition-colors border border-white/5"
             >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="submit"
-              className="flex-1 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors"
-            >
-              {t('common.save')}
-            </button>
+              <X size={20} />
+            </motion.button>
           </div>
-        </form>
-      </div>
+
+          <form onSubmit={handleSubmit} className="space-y-10">
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ms-2">{t('common.date')}</label>
+              <div className="relative group">
+                <div className="absolute start-6 top-1/2 -translate-y-1/2 p-2 bg-purple-500/10 rounded-xl text-purple-500/50 group-focus-within:text-purple-500 transition-colors">
+                  <Calendar size={16} />
+                </div>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full ps-16 pe-8 py-6 bg-white/5 border border-white/10 rounded-[2rem] text-white outline-none focus:ring-2 focus:ring-purple-500/50 font-bold text-lg transition-all shadow-inner [color-scheme:dark]"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ms-2">{t('modals.weight_label')}</label>
+              <div className="relative group">
+                <div className="absolute start-6 top-1/2 -translate-y-1/2 p-2 bg-purple-500/10 rounded-xl text-purple-500/50 group-focus-within:text-purple-500 transition-colors">
+                  <Scale size={16} />
+                </div>
+                <input
+                  type="number"
+                  step="0.1"
+                  required
+                  autoFocus
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  placeholder="00.0"
+                  className="w-full ps-16 pe-8 py-7 bg-white/5 border border-white/10 rounded-[2rem] text-white outline-none focus:ring-2 focus:ring-purple-500/50 text-5xl font-black tracking-tighter transition-all shadow-inner placeholder:text-white/5"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-4 pt-6">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-[0.7] py-7 text-white/20 font-black uppercase tracking-[0.4em] text-[10px] hover:text-white transition-colors"
+              >
+                {t('common.discard')}
+              </button>
+              <motion.button
+                whileHover={{ scale: 1.02, boxShadow: '0 20px 60px rgba(168,85,247,0.3)' }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+                className="flex-1 py-7 bg-purple-600 text-white font-black uppercase tracking-[0.4em] text-[10px] rounded-[2rem] shadow-[0_15px_40px_rgba(168,85,247,0.2)] flex items-center justify-center gap-3 border border-purple-400/20"
+              >
+                <Save size={18} />
+                {t('common.save')}
+              </motion.button>
+            </div>
+          </form>
+        </div>
+      </motion.div>
     </div>
   );
 };
